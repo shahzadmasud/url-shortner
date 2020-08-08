@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hackerrank.github.manager.impl.EventManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +35,12 @@ public class GithubApiRestController {
 	@Autowired
 	private ActorService actorService;
 
-	@Autowired
+	/*@Autowired
 	private EventService eventService;
+*/
+	@Autowired
+	private EventManager eventManager;
+
 
 	@Autowired
 	private ModelMapper mapper;
@@ -49,7 +55,7 @@ public class GithubApiRestController {
 	 */
 	@DeleteMapping("/erase")
 	public ResponseEntity<Void> deleteAllEvents() {
-		eventService.deleteAll();
+		eventManager.deleteAll();
 		return ResponseEntity.ok().build();
 	}
 
@@ -64,10 +70,14 @@ public class GithubApiRestController {
 	 * @param eventDTO
 	 * @return {@link ResponseEntity}
 	 */
-	@PostMapping(path = "/events", consumes = APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Void> saveEvent(@RequestBody EventDTO eventDTO) {
-		eventService.save(mapper.map(eventDTO, Event.class));
-		return ResponseEntity.status(CREATED).build();
+	@PostMapping(path = "/events")
+	public ResponseEntity<String> saveEvent(@RequestBody EventDTO eventDTO) throws Exception {
+		eventManager.save(eventDTO);
+		return new ResponseEntity<>(
+				"Info save successFuly",
+				HttpStatus.OK);
+
+		/*return ResponseEntity.status(CREATED).build();*/
 	}
 
 	/**
@@ -81,10 +91,9 @@ public class GithubApiRestController {
 	 */
 	@GetMapping("/events")
 	public ResponseEntity<List<EventDTO>> getEvents() {
-		Iterable<Event> iterable = eventService.findAll();
+		List<EventDTO> events  = eventManager.findAll();
 
-		List<EventDTO> events = new ArrayList<>();
-		iterable.forEach(event -> events.add(mapper.map(event, EventDTO.class)));
+
 
 		return ResponseEntity.ok().body(events);
 	}
@@ -103,7 +112,7 @@ public class GithubApiRestController {
 	 */
 	@GetMapping("/events/actors/{id}")
 	public ResponseEntity<List<EventDTO>> getEventsByActorId(@PathVariable("id") Long actorId) {
-		List<Event> events = eventService.getEventsByActorId(actorId);
+		List<Event> events = eventManager.getEventsByActorId(actorId);
 
 		List<EventDTO> eventsDTO = events.stream().map(e -> mapper.map(e, EventDTO.class)).collect(Collectors.toList());
 

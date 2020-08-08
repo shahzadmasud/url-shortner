@@ -13,7 +13,7 @@ import com.hackerrank.github.exceptions.BadRequestException;
 import com.hackerrank.github.exceptions.NotFoundException;
 import com.hackerrank.github.model.Actor;
 import com.hackerrank.github.model.Event;
-import com.hackerrank.github.model.Event_;
+/*import com.hackerrank.github.model.Event_;*/
 import com.hackerrank.github.repository.ActorRepository;
 import com.hackerrank.github.repository.EventRepository;
 import com.hackerrank.github.service.EventService;
@@ -38,7 +38,7 @@ public class EventServiceImpl implements EventService {
 			Event event = new Event();
 			event.setActor(actor);
 
-			return eventRepository.findAll(Example.of(event), sortAscendingOrderById());
+			return eventRepository.findAll(Example.of(event));
 		}
 	}
 
@@ -53,12 +53,12 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<Event> findAll() {
-		return eventRepository.findAll(sortAscendingOrderById());
+		return eventRepository.findAll();
 	}
 
-	private Sort sortAscendingOrderById() {
+	/*private Sort sortAscendingOrderById() {
 		return new Sort(Direction.ASC, Event_.ID);
-	}
+	}*/
 
 	@Override
 	public void deleteAll() {

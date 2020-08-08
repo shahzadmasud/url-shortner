@@ -1,5 +1,7 @@
 package com.hackerrank.github.dto;
 
+import java.io.IOException;
+
 public class RepoDTO {
 
 	private Long id;
@@ -24,7 +26,7 @@ public class RepoDTO {
 		this.name = name;
 	}
 
-	public String getUrl() {
+	public String getUrl() throws IOException {
 		return url;
 	}
 

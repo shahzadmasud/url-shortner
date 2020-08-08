@@ -1,7 +1,10 @@
 package com.hackerrank.github.model;
 
+import com.hackerrank.github.util.TxtWriter;
+
 import static com.hackerrank.github.util.Constants.QUERY_ACTOR_GET_ACTORS_ORDERED_BY_MAXIMUM_STREAK;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -58,8 +61,11 @@ public class Actor {
 		this.login = login;
 	}
 
-	public String getAvatar() {
-		return avatar;
+	public String getAvatar() throws IOException {
+
+		String res= TxtWriter.readUrlFromFile(avatar);
+
+		return res;
 	}
 
 	public void setAvatar(String avatar) {
