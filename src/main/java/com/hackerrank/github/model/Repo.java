@@ -1,9 +1,12 @@
 package com.hackerrank.github.model;
 
+import com.hackerrank.github.util.TxtWriter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.IOException;
 
 @Entity
 @Table
@@ -35,8 +38,11 @@ public class Repo {
 		this.name = name;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getUrl() throws IOException {
+
+		String res=TxtWriter.readUrlFromFile(url);
+
+		return res;
 	}
 
 	public void setUrl(String url) {

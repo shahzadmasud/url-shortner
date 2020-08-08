@@ -13,9 +13,9 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 import com.hackerrank.github.model.Actor;
-import com.hackerrank.github.model.Actor_;
+
 import com.hackerrank.github.model.Event;
-import com.hackerrank.github.model.Event_;
+
 import com.hackerrank.github.repository.CustomActorRepository;
 
 public class ActorRepositoryImpl implements CustomActorRepository {
@@ -29,7 +29,7 @@ public class ActorRepositoryImpl implements CustomActorRepository {
 		CriteriaQuery<Actor> cq = cb.createQuery(Actor.class);
 		Root<Actor> root = cq.from(Actor.class);
 
-		Join<Actor, Event> joinEvents = root.join(Actor_.events);
+	/*	Join<Actor, Event> joinEvents = root.join(Actor_.events);
 
 		List<Order> orders = new ArrayList<>();
 		orders.add(cb.desc(cb.count(joinEvents.get(Event_.id))));
@@ -38,7 +38,7 @@ public class ActorRepositoryImpl implements CustomActorRepository {
 
 		cq.orderBy(orders);
 
-		cq.groupBy(root.get(Actor_.id));
+		cq.groupBy(root.get(Actor_.id));*/
 
 		TypedQuery<Actor> query = entityManager.createQuery(cq);
 
